@@ -15,18 +15,26 @@ args.add_argument('--count', '-c', default=10, type=int, help='the maximum count
 
 if __name__ == '__main__':
     args = args.parse_args()
+
+    # changes decimal floating points before calculating.
     Decimal.change_floating_points(args.floating_points)
 
+    # constructs polynomial function from the parameter.
     polynomial = Polynomial(*map(lambda x: Decimal(x), args.coefficients))
 
     try:
         if args.bisection:
+            # if `-b` or `--bisection` argument is passed, calculate root value by bisection method.
             root, error = get_bisection(polynomial, Decimal(args.bisection[0]), Decimal(args.bisection[1]), args.count)
         else:
+            # if `-n` or `--newton` argument is passed, calculate root value by Newton-Raphson method.
             root, error = get_newton_raphson(polynomial, Decimal(args.newton[0]), args.count)
+
+        # print the result.
+        print(f'Root  : {root}')
+        print(f'Error : {abs(error)}')
     except NoRootFoundException:
+        # if cannot find root value with the argument,
         print('Cannot find root value by this method..')
         exit(1)
 
-    print(f'Root  : {root}')
-    print(f'Error : {abs(error)}')

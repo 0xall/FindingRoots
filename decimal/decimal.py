@@ -1,7 +1,7 @@
 """
 Decimal class helps to represent floating points as decimal floating.
 """
-from functools import total_ordering, reduce
+from functools import total_ordering
 from typing import Optional, Union
 
 
